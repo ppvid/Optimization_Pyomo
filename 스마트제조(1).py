@@ -21,6 +21,7 @@ model.pprint()
 #solver=SolverFactory('glpk') : solver.를 지정한다
 #glpk: GNU Linear Programming Kit
 #solver.solve(model) :  풀 문제를 지정한다 
+#여기서 glpk가 불러지지 않았다. 시스템 환경 변수에 들어가 환경변수, path 편집, 새로 만들기 후 설치한 경로 넣었더니 실행됨.
 SolverFactory('glpk').solve(model).write()
 
 model.profit.display() #목적함수 해 출력 
