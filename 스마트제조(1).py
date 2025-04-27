@@ -67,3 +67,98 @@ print(f'최대이익= {model2.profit()} 천원/주')
 print(f'x의 최적생산량 = {model2.x()} 개/주')
 print(f'y의 최적생산량= {model2.y()} 개/주')
 
+
+#LP모형 및 해에 대한 시각화
+#라이브러리 불러오기
+import matplotlib.pyplot as plt
+import numpy as np
+#그래프의 크기 결정
+plt.figure(figsize=(6,6))#가로 세로 6인치인 정사각형 캔버스스
+plt.axis([0,100,0,100])#x축을 0부터 100, y축을 0부처 100까지
+plt.xlabel('X Production')
+plt.ylabel('Y Production')
+#제약조건의 경계선 및 범례 추가
+
+#수요 제약, 녹색 선 표시 
+plt.plot([40,40],[0,100], 'g',lw=2)#x좌표 40부터 40, 즉 x=40, y좌표는 0부터 100까지
+#A노동력 제약, 붉은 선 표시 
+x=np.array([0,80])#x값을 0부터 80까지
+plt.plot(x,80-x,'r',lw=2)#y=80-x
+#B노동력 제약, 파란선 표시 
+x=np.array([0,50])
+plt.plot(x,100-2*x,'b', lw=2)
+#범례 표시
+plt.legend(['Labor A Constraint','Labor B Constraint','Demand Constraint'])
+
+#fill 함수
+#fill_between: 두 수평방향의 곡선 사이를 채움
+#fill_betweenx(): 두 수직 방향의 곡선 사이를 채움
+#fill(): 다각형 영역을 채움
+
+#제약조건
+#A노동력 제약 영역 채우기
+#(0,80) → (80,0) → (100,0) 이 세 점을 따라 그린 아래쪽 선과,
+#(0,100) → (80,100) → (100,100) 이 윗선을 기준으로 사이 영역을 채움
+#제약식의 꼭짓점(x,y절편이나 경계값)을 직접 넣어 색을 칠한 것
+plt.fill_between(
+    [0,80,100],#x좌표 세개
+    [80,0,0],#아래쪽 y좌표(Lower bound)
+    [100,100,100],#위쪽 y 좌표(upper bound)
+    color='r',
+    alpha=0.15#투명도(15%불투명)
+    ) 
+#B노동력 제약 영역 채우기
+plt.fill_between(
+    [0,50,100],[100,0,0],[100,100,100],
+    color='b',
+    alpha=0.15)
+#수요 제약 영역 채우기
+plt.fill_between(
+    [40,100],[0,0],[100,100],
+    color='g',
+    alpha=0.15)
+
+#목적함수
+#이익의 크기에 따른 등고선 표시
+#목적함수 정리: z=40x+30y
+x=np.array([0,100])
+for z in np.linspace(0,3600,10): #z값(목적함수 값)은 0-3600 사이 10가지 균등한 값값
+    y=(z-40*x)/30
+    plt.plot(x,y,'y--') #'y--': 점선으로 그래프를 그린다
+
+#화살표 추가
+arrowprops=dict(shrink=.3,width=.5, headwidth=5)
+#shrink: 화살표의 길이 조절, width: 화살표 몸통 두께, headwidth: 화살촉 두께께
+plt.plot(20,60,'r.', ms=20) #점을 찍는 곳 지정정
+#ms: 마커 크기
+plt.annotate(
+    'Mixed Product Strategy',
+    xy=(20,60), #화살표가 가르키는 위치
+    xytext=(50,70), #텍스트를 표시할 위치
+    arrowprops=arrowprops
+)
+plt.plot(0,80,'b.',ms=20)
+plt.annotate(
+    'Y Only',
+    xy=(0,80),
+    xytext=(20,90),
+    arrowprops=arrowprops
+)
+
+plt.plot(40,0,'b.',ms=20)
+plt.annotate(
+    'X Only',
+    xy=(40,0),
+    xytext=(70,20),
+    arrowprops=arrowprops
+)
+plt.text(4,23,'Increasing Profit')
+plt.annotate(
+    '',
+    xy=(20,15),
+    xytext=(0,0),
+    arrowprops=arrowprops
+)
+
+plt.show()
+

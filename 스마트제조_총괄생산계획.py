@@ -8,9 +8,10 @@ def setup_model(D, type_mp ='LP'):
     #0을 뺀 이유는 목적함수, 제약식 정의 시 초기값 제외하기 위해서서
     T= range(1,TH+1)
     
-    #정수계획법을 사용
+    #정수계획법을 사용, 변수의 유형 정리 
     if type_mp=='IP':
        type_var=NonNegativeIntegers
+    #만약 변수가 정수계획법이 아니면 0이 아닌 실수
     else:
         type_var=NonNegativeReals
     
