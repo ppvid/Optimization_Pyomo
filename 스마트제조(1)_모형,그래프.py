@@ -127,8 +127,8 @@ for z in np.linspace(0,3600,10): #z값(목적함수 값)은 0-3600 사이 10가�
     plt.plot(x,y,'y--') #'y--': 점선으로 그래프를 그린다
 
 #화살표 추가
-arrowprops=dict(shrink=.3,width=.5, headwidth=5)
-#shrink: 화살표의 길이 조절, width: 화살표 몸통 두께, headwidth: 화살촉 두께께
+arrowprops=dict(shrink=.1,width=.5, headwidth=5)
+#shrink: 화살표의 길이 조절(넓게 하면 가르키는 지점이랑 멀어짐), width: 화살표 몸통 두께, headwidth: 화살촉 두께께
 plt.plot(20,60,'r.', ms=20) #점을 찍는 곳 지정정
 #ms: 마커 크기
 plt.annotate(
@@ -160,5 +160,14 @@ plt.annotate(
     arrowprops=arrowprops
 )
 
+#그래프 저장
+file_path='그래프1.png'
+plt.savefig(file_path,bbox_inches='tight')
+#bbox_inches=(tight/None):tight(여백 없이 딱 맞게 잘라서 저장),None(그림 전체를 여백 포함 저장장)
+
 plt.show()
 
+#PIL(pillow)라이브러리리
+from PIL import Image
+im=Image.open('그래프1.png')
+im.show()#이미지를 기본 이미지 뷰어로 띄워줌
